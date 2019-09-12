@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .game{
+            background: #f2f2f2;
+            margin: 0 auto;
+            width: 500px;
+            height: 500px;
+        }
+        .tile-container {
+            margin: 10px;
+        }
+        .tile {
+            font-size: 90px;
+            color: #f2f2f2;
+            text-align: center;
+            display: inline-block;
+            width: 115px;
+            height: 115px;
+            background: #4cae4c;
+            margin: 2px 2px 2px  2px;
+        }
+    </style>
+</head>
+<body>
+<div class="game">
+    <div class="tile-container">
+    </div>
+</div>
+<script>
+    let size=4;
+    let game=document.getElementsByClassName("tile-container")[0];
+    let tile=[];
+    function initGame() {
+        for (let i=0;i<size*size;i++){
+        let node=document.createElement("div");
+        node.classList.add("tile");
+        game.appendChild(node);
+        tile[i]={
+            value:0,
+            flag:false,
+        }
+        }
+    }
+    initGame();
+    let tile_node=document.getElementsByClassName("tile");
+
+    function updateDOM() {
+        for (let i=0;i<size*size;i++){
+            tile_node[i].innerHTML=tile[i].value;
+            if (til) 
+        }
+    }
+    function updateTile() {
+        
+    }
+    document.onkeydown=function(event){
+        var e=event||window.event||arguments.callee.caller.arguments[0];
+        console.log(e);
+        if(e){
+            console.log(e.keyCode);
+        }
+    };
+    updateDOM();
+</script>
+</body>
+</html>
