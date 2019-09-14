@@ -19,13 +19,13 @@
             margin: 10px;
         }
         .tile {
-            font-size: 90px;
+            font-size: 80px;
             color: #f2f2f2;
             text-align: center;
             display: inline-block;
             width: 115px;
             height: 115px;
-            background: #4cae4c;
+            background: #f2f2f2;
             margin: 2px 2px 2px  2px;
         }
     </style>
@@ -45,7 +45,7 @@
         node.classList.add("tile");
         game.appendChild(node);
         tile[i]={
-            value:0,
+            value:200,
             flag:false,
         }
         }
@@ -55,9 +55,9 @@
 
     function updateDOM() {
         for (let i=0;i<size*size;i++){
-            tile_node[i].innerHTML=tile[i].value;
-            if (tile){
-                ssss
+            //changecolor
+            if(tile[i].value) {
+                tile_node[i].innerHTML = tile[i].value;
             }
         }
     }
@@ -66,10 +66,12 @@
     }
     document.onkeydown=function(event){
         var e=event||window.event||arguments.callee.caller.arguments[0];
-        console.log(e);
-        if(e){
-            console.log(e.keyCode);
+        if(e.keyCode==38||e.keyCode==39||e.keyCode==40||e.keyCode==37){
+            for(let i=0;i<size*size;i++){
+                tile[i].value*=2;
+            }
         }
+        updateDOM();
     };
     updateDOM();
 </script>
