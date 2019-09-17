@@ -71,9 +71,20 @@
                 tile[i].value*=2;
             }
         }
-        updateDOM();
     };
     updateDOM();
+    function GameStart() {
+        initGame();
+        while(1){
+            KeyPressHandler();
+            updateDOM();
+            if(isGameOver()){
+                GameOverHandler();
+                break;
+            }
+        }
+    }
+    GameStart();
 </script>
 </body>
 </html>
