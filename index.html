@@ -3,88 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
     <style>
         *{
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
+            transition: 500ms;
+        }
+        body {
+            background: #F8FFE5;
+        }
+        div {
+            margin-right: -5px;
+            margin-bottom: -5px;
         }
         .game{
-            background: #f2f2f2;
+            background: #777777;
             margin: 0 auto;
             width: 500px;
             height: 500px;
+            position: relative;
+            top: 20px;
         }
         .tile-container {
-            margin: 10px;
+            position: absolute;
         }
         .tile {
-            font-size: 80px;
+            line-height: 90px;
+            left: 0;
+            position: absolute;
+            font-size: 40px;
             color: #f2f2f2;
             text-align: center;
-            display: inline-block;
-            width: 115px;
-            height: 115px;
-            background: #f2f2f2;
-            margin: 2px 2px 2px  2px;
+            width: 100px;
+            height: 100px;
+            background: #F8FFE5;
+
+        }
+        .header {
+            line-height: 100px;
         }
     </style>
 </head>
 <body>
+<header>
+    <div class="container header"><span id="header">2048小游戏</span></div>
+
+</header>
+<div class="container intro"><p><strong>如何玩</strong>：上下左右控制砖块的形成和合并，相同砖块会合成为一块，快来试试吧！</p></div>
+<div class="container score">
+    <div class="bestScore_item">最佳：<div class="bestScore">0</div></div>
+    <div class="parentScore_item">分数：<div class="parentScore">0</div></div>
+</div>
 <div class="game">
     <div class="tile-container">
     </div>
 </div>
+<div class="container btn"><button onclick="updateDOM()">点我</button></div>
 <script>
-    let size=4;
-    let game=document.getElementsByClassName("tile-container")[0];
-    let tile=[];
-    function initGame() {
-        for (let i=0;i<size*size;i++){
-        let node=document.createElement("div");
-        node.classList.add("tile");
-        game.appendChild(node);
-        tile[i]={
-            value:200,
-            flag:false,
-        }
-        }
-    }
-    initGame();
-    let tile_node=document.getElementsByClassName("tile");
+        let size = 4;
+        let game = document.getElementsByClassName("tile-container")[0];
+        let tile = [];
+        let tile_length = 100;
 
-    function updateDOM() {
-        for (let i=0;i<size*size;i++){
-            //changecolor
-            if(tile[i].value) {
-                tile_node[i].innerHTML = tile[i].value;
+        function initGame() {
+            for (let i = 0; i < size * size; i++) {
+                let node = document.createElement("div");
+                node.classList.add("tile");
+                node.setAttribute("style", "top:0;left:0;")
+                game.appendChild(node);
+                tile[i] = {
+                    value: 0,
+                    flag: false,
+                }
             }
-        }
-    }
-    function updateTile() {
-        
-    }
-    document.onkeydown=function(event){
-        var e=event||window.event||arguments.callee.caller.arguments[0];
-        if(e.keyCode==38||e.keyCode==39||e.keyCode==40||e.keyCode==37){
-            for(let i=0;i<size*size;i++){
-                tile[i].value*=2;
+            for (k in tile_node) {
+                var x = parseInt(k % 4);
+                var y = parseInt(k / 4);
+                tile_node[k].style = "left:" + (20 * (x + 1) + 100 * x) + "px;" + "top:" + (20 * (y + 1) + 100 * y) + "px";
             }
-        }
-    };
-    updateDOM();
-    function GameStart() {
-        initGame();
-        while(1){
-            KeyPressHandler();
+            addRandomNumber();
+            addRandomNumber();
             updateDOM();
-            if(isGameOver()){
-                GameOverHandler();
-                break;
+        }
+
+        var tile_node = document.getElementsByClassName("tile");
+
+        function addRandomNumber() {
+            while (1) {
+                var index = parseInt(size * size * Math.random());
+                if (tile[index].value == 0) {
+                    tile[index].value = 2;
+                    break;
+                }
+            }
+
+        }
+
+        function updateDOM() {
+            for (let i = 0; i < size * size; i++) {
+                //changecolor
+                if (tile[i].value) {
+                    tile_node[i].innerHTML = tile[i].value;
+                    tile_node[i].style.background = "#FFC43D";
+                } else {
+                    tile_node[i].style.background = "#F8FFE5";
+                }
             }
         }
-    }
-    GameStart();
+
+        // function updateTile() {
+        //
+        // }
+        function KeyPressHandler() {
+
+        }
+
+        function isGameOver() {
+
+        }
+
+        function GameOverHandler() {
+
+        }
+
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40 || e.keyCode == 37) {
+                for (let i = 0; i < size * size; i++) {
+                    tile[i].value *= 2;
+                }
+            }
+        };
+
+        function GameStart() {
+            initGame();
+            // while(1){
+            KeyPressHandler();
+            if (isGameOver()) {
+                GameOverHandler();
+                // break;
+            }
+            // }
+        }
+
+        GameStart();
+    
 </script>
 </body>
 </html>
