@@ -100,7 +100,7 @@ function isGameOver() {
         }
         
     }
-    alert("GAME OVER");
+    alert("GAME OVER~What an Idiot");
     return true;
 }
 
@@ -195,7 +195,7 @@ function KeyPressHandler() {
             new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     addRandomNumber();
-                    // addRandomNumber();
+                    // addRandomNumber(); //想一次生成两个就把这个注释解掉 QwQ
                     updateDOM();
                     resolve();
                 }, 200);
