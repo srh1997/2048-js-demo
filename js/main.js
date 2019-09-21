@@ -1,7 +1,11 @@
 let size = 4;
 let game = document.getElementsByClassName("tile-container")[0];
 let tile = [];
-
+let isWin=false;
+let bestScore_item=document.getElementById('bestScore');
+let parentScore_item=document.getElementById('parentScore');
+let bestScore=0;
+let parentScore=0;
 function initGame() {
     for (let i = 0; i < size * size; i++) {
         let node = document.createElement("div");
@@ -20,15 +24,22 @@ function initGame() {
     addRandomNumber();
     addRandomNumber();
     updateDOM();
+    initScore();
+}
+function initScore() {
+    bestScore=localStorage.getItem("BestScore") || 0;
+    bestScore_item.innerHTML=bestScore;
 }
 
 var tile_node = document.getElementsByClassName("tile");
 
 function addRandomNumber() {
+    if(isFulled())return;
     while (1) {
         var index = parseInt(size * size * Math.random());
         if (tile[index].value == 0) {
-            tile[index].value = 2;
+            var ranNum=2*Math.random();
+            tile[index].value = (ranNum>=0.5)?2:2;
             break;
         }
     }
@@ -56,22 +67,45 @@ function updateDOM() {
                 case 2048:tile_node[i].style.background = "#05a47b";break;
             }
         } else {
+            tile_node[i].innerHTML="";
             tile_node[i].style.background = "#F8FFE5";
         }
+    }
+
+    parentScore_item.innerHTML=parentScore;
+    if(parentScore>bestScore){
+        localStorage.setItem('BestScore',parentScore);
+        bestScore_item.innerHTML=parentScore;
     }
 }
 
 
 function isGameOver() {
-    for (k in tile){
-        if(tile[k].value==0)return false;
+    if (isWin) {
+        alert("YOU WIN!");
+        return true;
     }
+
+   // var flag=true;
+    if(!isFulled())return false;
+    for (let i = 0; i < 4; i++) {
+        for(let j=i;j!=i+size*3;j+=size){
+            if(tile[j].value===tile[j+size].value)return false;
+        }
+        
+    }
+    for (let i = 0; i < 0+size*4; i+=size) {
+        for(let j=i;j!=i+3;j++){
+            if(tile[j].value===tile[j+1].value)return false;
+        }
+        
+    }
+    alert("GAME OVER");
     return true;
 }
 
 function GameOverHandler() {
-    alert("Game Over");
-    document.onkeydown=null;
+    document.onkeydown=undefined;
 
 }
 function KeyPressHandler() {
@@ -129,7 +163,9 @@ function KeyPressHandler() {
                     if (newArray[0] != 0) {
                         for (let i = 0; i < size; i++) {
                             if (newArray[i] === newArray[i + 1]) {
+                                parentScore+=newArray[i];
                                 newArray[i] *= 2;
+                                if(newArray[i]==2048)isWin=true;
                                 newArray[i + 1] = 0;
                             }
                         }
@@ -159,10 +195,10 @@ function KeyPressHandler() {
             new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     addRandomNumber();
-                    addRandomNumber();
+                    // addRandomNumber();
                     updateDOM();
                     resolve();
-                }, 300);
+                }, 200);
             }).then(function () {
                 if (isGameOver()) {
                     GameOverHandler();
@@ -171,6 +207,12 @@ function KeyPressHandler() {
         }
 
     };
+}
+function isFulled(){
+    for (k in tile){
+        if(tile[k].value==0)return false;
+    }
+    return true;
 }
 function GameStart() {
     initGame();
